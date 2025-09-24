@@ -5,17 +5,43 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('./auth');
+const { createClient } = require('redis');
+const RedisStore = require('connect-redis').default;
 const app = express();
+
+// Initialize session store
+let sessionStore;
+if (process.env.REDIS_URL) {
+  // Production: Use Redis
+  const redisClient = createClient({
+    url: process.env.REDIS_URL
+  });
+  redisClient.connect().catch(console.error);
+  
+  sessionStore = new RedisStore({
+    client: redisClient,
+    prefix: 'auction-tracker:'
+  });
+  console.log('Using Redis session store');
+} else {
+  // Development: Use MemoryStore with warning
+  console.warn('Using MemoryStore for development only');
+  sessionStore = new session.MemoryStore();
+}
+
+// Redis store is already initialized above
 
 app.use(cors());
 app.use(express.json());
 app.use(session({
-  secret: 'auctiontrackersecret',
+  store: sessionStore,
+  secret: process.env.SESSION_SECRET || 'auctiontrackersecret',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     sameSite: 'none',
-    secure: true
+    secure: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));
 app.use(passport.initialize());

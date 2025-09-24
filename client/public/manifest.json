@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Opal Auction Tracker",
+  "version": "1.0.0",
+  "description": "Track and monitor Facebook group auctions",
+  "permissions": [
+    "storage",
+    "scripting",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "https://*.facebook.com/*",
+    "https://www.facebook.com/*",
+    "https://facebook.com/*",
+    "http://localhost:5001/*",
+    "https://opaltracker.onrender.com/*",
+    "https://facebook-group-auction-tracker-app.onrender.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.facebook.com/*",
+        "https://www.facebook.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Opal Auction Tracker"
+  }
+}
