@@ -1,4 +1,4 @@
-# Auction Tracker App
+# Facebook Group Auction Tracker App
 
 Full-stack app to track and monitor Facebook group auctions (live and non-live), fully integrated with Facebook (App ID: 1109006344671508).
 
