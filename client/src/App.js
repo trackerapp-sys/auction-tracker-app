@@ -6,7 +6,7 @@ function App() {
 
   useEffect(() => {
     // Try to fetch user profile after login
-    fetch('http://localhost:5000/profile', {
+  fetch('http://localhost:5001/profile', {
       credentials: 'include',
     })
       .then(res => res.ok ? res.json() : null)
@@ -16,7 +16,7 @@ function App() {
   }, []);
 
   const handleFacebookLogin = () => {
-    window.location.href = 'http://localhost:5000/auth/facebook';
+  window.location.href = 'http://localhost:5001/auth/facebook';
   };
 
   const [view, setView] = useState('');
@@ -66,7 +66,7 @@ function GroupSelectorSidebar({ onSelect }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:5000/facebook/groups', { credentials: 'include' })
+  fetch('http://localhost:5001/facebook/groups', { credentials: 'include' })
       .then(res => res.ok ? res.json() : { groups: [] })
       .then(data => {
         setGroups(data.groups || []);
@@ -104,7 +104,7 @@ function AuctionDashboard({ groupId, type }) {
   useEffect(() => {
     setLoading(true);
     setError('');
-    fetch(`http://localhost:5000/facebook/group/${groupId}/auctions`, { credentials: 'include' })
+  fetch(`http://localhost:5001/facebook/group/${groupId}/auctions`, { credentials: 'include' })
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(data => {
         setAuctions(data.auctions || []);
